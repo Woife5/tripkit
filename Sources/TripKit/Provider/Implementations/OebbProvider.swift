@@ -30,6 +30,12 @@ public class OebbProvider: AbstractHafasClientInterfaceProvider {
         apiClient = ["id": "OEBB", "type": "IPH", "name": "oebbADHOC", "v": "6020300"]
         styles = [
             "WESTbahn Management GmbH|I": LineStyle(shape: .rect, backgroundColor: LineStyle.white, foregroundColor: LineStyle.parseColor("#0077b5"), borderColor: LineStyle.parseColor("#0077b5")),
+            
+            "Wiener Linien GmbH & Co KG|UU1": LineStyle(shape: .rect, backgroundColor: LineStyle.parseColor("#d8222a"), foregroundColor: LineStyle.white),
+            "Wiener Linien GmbH & Co KG|UU2": LineStyle(shape: .rect, backgroundColor: LineStyle.parseColor("#935e98"), foregroundColor: LineStyle.white),
+            "Wiener Linien GmbH & Co KG|UU3": LineStyle(shape: .rect, backgroundColor: LineStyle.parseColor("#e67a2b"), foregroundColor: LineStyle.white),
+            "Wiener Linien GmbH & Co KG|UU4": LineStyle(shape: .rect, backgroundColor: LineStyle.parseColor("#009460"), foregroundColor: LineStyle.white),
+            "Wiener Linien GmbH & Co KG|UU6": LineStyle(shape: .rect, backgroundColor: LineStyle.parseColor("#8c633c"), foregroundColor: LineStyle.white),
         ]
     }
     
