@@ -34,6 +34,7 @@ public class AbstractEfaProvider: AbstractNetworkProvider {
         return dateFormatter
     }()
     
+    var infoUrlFallback: String?
     var includeRegionId: Bool = true
     var useRouteIndexAsTripId: Bool = true
     var requestUrlEncoding: String.Encoding = .utf8

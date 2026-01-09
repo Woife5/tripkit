@@ -378,7 +378,13 @@ public class AbstractEfaWebProvider: AbstractEfaProvider {
         
         var messages: [InfoText] = []
         for infoLink in xml["itdRequest"]["itdInfoLinkList"]["itdBannerInfoList"]["infoLink"].all {
-            guard let infoLinkText = infoLink["infoLinkText"].element?.text, let infoLinkUrl = infoLink["infoLinkURL"].element?.text else { continue }
+            guard let infoLinkText = infoLink["infoLinkText"].element?.text else { continue }
+            guard var infoLinkUrl = infoLink["infoLinkURL"].element?.text ?? infoUrlFallback else { continue }
+            
+            if infoLinkUrl.starts(with: "http://localhost"), let fallback = infoUrlFallback {
+                infoLinkUrl = fallback
+            }
+
             messages.append(InfoText(text: infoLinkText.stripHTMLTags(), url: infoLinkUrl))
         }
         

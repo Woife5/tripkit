@@ -4,12 +4,14 @@ import Foundation
 public class LinzProvider: AbstractEfaWebProvider {
     
     static let API_BASE = "https://www.linzag.at/linz-efa/"
+    static let INFO_URL = "https://www.linzag.at/portal/de/privatkunden/unterwegs/fahrplanauskunft/aktuelle_meldungen"
     
     public override var supportedLanguages: Set<String> { ["de", "en"] }
     
     public init() {
         super.init(networkId: .LINZ, apiBase: LinzProvider.API_BASE)
         useRouteIndexAsTripId = false
+        infoUrlFallback = LinzProvider.INFO_URL
         
         styles = [
             // Regular buses
