@@ -769,6 +769,9 @@ public class AbstractHafasClientInterfaceProvider: AbstractHafasProvider {
         case "2": direction = .outward
         default: direction = nil
         }
+        if let lineAttrs = l.attr, !lineAttrs.isEmpty {
+            attrs = Array(Set(lineAttrs).union(attrs ?? []))
+        }
         let line = Line(id: l.id, network: l.network, product: l.product, label: l.label, name: l.name, number: l.number, vehicleNumber: l.vehicleNumber, style: l.style, attr: attrs, message: l.message, direction: direction)
         
         // Parse line destination

@@ -1,10 +1,11 @@
 import Foundation
+import SwiftyJSON
 
 /// ÖBB Personenverkehr AG (AT)
 public class OebbProvider: AbstractHafasClientInterfaceProvider {
     
     static let API_BASE = "https://fahrplan.oebb.at/gate"
-    static let PRODUCTS_MAP: [Product?] = [.highSpeedTrain, .highSpeedTrain, .highSpeedTrain, .highSpeedTrain, .regionalTrain, .suburbanTrain, .bus, .ferry, .subway, .tram, .highSpeedTrain, .onDemand, .highSpeedTrain]
+    static let PRODUCTS_MAP: [Product?] = [.highSpeedTrain, .bus, .highSpeedTrain, .highSpeedTrain, .regionalTrain, .suburbanTrain, .bus, .ferry, .subway, .tram, .highSpeedTrain, .onDemand, .highSpeedTrain]
     
     public override var supportedLanguages: Set<String> { ["de"] }
     
@@ -61,6 +62,18 @@ public class OebbProvider: AbstractHafasClientInterfaceProvider {
             return (m[0], m[1])
         }
         return super.split(address: address)
+    }
+    
+    /// Product class of rail replacement services "Schienenersatzverkehr"
+    static let CLS_SERVICE_REPLACEMENT = 2
+    static let STYLE_SERVICE_REPLACEMENT = LineStyle(shape: .rounded, backgroundColor: LineStyle.parseColor("#ebc81e"), foregroundColor: LineStyle.black)
+    
+    override func parseProdList(prodList: JSON, operators: [String]?) throws -> [Line] {
+        let lines = try super.parseProdList(prodList: prodList, operators: operators)
+        return zip(prodList.arrayValue, lines).map { prod, line in
+            guard prod["cls"].int == OebbProvider.CLS_SERVICE_REPLACEMENT else { return line }
+            return Line(id: line.id, network: line.network, product: line.product, label: line.number ?? line.label, name: line.name, number: line.number, vehicleNumber: line.vehicleNumber, style: OebbProvider.STYLE_SERVICE_REPLACEMENT, attr: [.serviceReplacement], message: line.message)
+        }
     }
     
     override func getWagonSequenceContext(line: Line, departureStop: StopEvent) -> QueryWagonSequenceContext? {
